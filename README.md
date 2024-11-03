@@ -10,5 +10,7 @@ This is currently a first pass implementation that uses raycasting to project a 
 
 -  Controls to navigate the 3d space
 
+-  How intput and output resolutions are reconciled needs to be refactored so they can be independent of one another without errors in output
+
 ![outputexample](https://github.com/user-attachments/assets/6a71e347-e621-4553-97ba-0e33087afea6)
 
