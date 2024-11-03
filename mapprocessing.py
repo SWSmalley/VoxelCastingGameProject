@@ -17,7 +17,7 @@ def save_brightness_array_as_json(brightness_array, output_path):
         json.dump(brightness_list, json_file)
 
 # Example usage
-image_path = 'test heightmap.png'
+image_path = 'heightmap.png'
 output_path = 'map.json'
 
 brightness_array = image_to_brightness_array(image_path)

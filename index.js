@@ -3,7 +3,7 @@ import Vector from "./objects/vectors.js";
 
 
 
-const cameraStart = {x:300,y:150,z:30}
+const cameraStart = {x:350,y:300,z:100}
 camera.setPosition(cameraStart.x,cameraStart.y,cameraStart.z)
 camera.setFacing(0,0,1)
 ///render window vars
@@ -11,13 +11,13 @@ const canvas = document.getElementById('voxelViewport');
 const topDownMap = document.getElementById('topDownMap');
 const tdmpctx = topDownMap.getContext('2d');
 const ctx = canvas.getContext('2d');
-const width = 200;
-const height = 200;
+const width = 800;
+const height = 800;
 const FoVx = 90; // field of view in degrees
 const FoVy = height/width *FoVx // set so the fov is consistent with the asepct ratio
 let imageData = ctx.createImageData(width,height);
 let mapimg = new Image()
-mapimg.src = "test heightmap.png"
+mapimg.src = "heightmap.png"
 const viewDistance =800
 let pixelsHitMapMarkers = [] 
 
@@ -46,8 +46,11 @@ async function loadMap (path){
     pixelsHitMapMarkers.forEach(([y, x]) => {
         tdmpctx.fillRect(x, y, 1, 1);})
     //console.log(pixelsHitMapMarkers)
-    console.log("image data length = ", imageData.length, ", imagedata  = ", imageData,)
-
+    //console.log("image data length = ", imageData.length, ", imagedata  = ", imageData,)
+     tdmpctx.fillStyle = "blue"
+    tdmpctx.beginPath();  
+    tdmpctx.arc(camera.position.x, camera.position.z, 4, 0, 2 * Math.PI)
+    tdmpctx.fill()
     
 }
 
@@ -142,9 +145,8 @@ try{return scaleTo255(pixelCoordsHit.distance)}catch{return 0}
         
 }
 
-function scaleTo255(value, maxThreshold = 800) {
-    // Find the minimum value in the array
-    const min = 0
+function scaleTo255(value, maxThreshold = 500) {
+    const min = 50
     
     // Scale the values
     
@@ -197,7 +199,7 @@ function getFirstThreadedPixel(scanTarget,xPixelCoord,yPixelCoord) { /// unteste
         let scanVectorHeightAtTile = basisPixelXZToYRatio*currentXZMag
         try{
         if (map[z1][x1] > scanVectorHeightAtTile+camera.position.y){
-            return { x: x1, z: z1, distance: Math.sqrt(currentXZMag**2+scanVectorHeightAtTile**2) } // returns the map index for the point of intersection and the raycast length to the center of that tile at that height
+            return { x: x1, z: z1, distance: Math.sqrt((x1-x2)**2+(z1-z2)**2)}//+scanVectorHeightAtTile**2) } // returns the map index for the point of intersection and the raycast length to the center of that tile at that height
         }
         }catch(error){
             return null // index invalid... ran out of map
